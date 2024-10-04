@@ -8,6 +8,7 @@
 #' @export
 #'
 #' @examples
+#' mybin(iter=100,n=10, p=0.7)
 mybin=function(iter=100,n=10, p=0.7){
   # This is the function that will simulate a binomial distribution
   # The top portion is adjustable when the function is called
