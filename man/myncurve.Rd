@@ -14,7 +14,7 @@ myncurve(mu, sigma, a)
 \item{a}{a value}
 }
 \value{
-A list of the mean and standard deviation
+A list of the mean, standard deviation, and area under the curve
 }
 \description{
 Title: myncurve function implementation

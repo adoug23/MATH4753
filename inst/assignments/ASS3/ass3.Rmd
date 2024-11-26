@@ -1,0 +1,677 @@
+---
+title: "Assignment 3: MATH 4753"
+author: "Andrew Douglass"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Completed: 16/16
+
+# Tasks
+
+## Task 1
+
+### Part a.
+
+To answer this question, the equation for exponential distribution from page 213 can be used to setup an integral. This equation would be:
+$$
+f(y) = \frac{e^{-y / \beta}}{\beta} \quad (0 \leq y < \infty)
+$$
+This then becomes:
+$$
+P(Y \geq 120) = \int_{120}^{\infty} \frac{e^{-y / 95}}{95} \, dy
+$$
+When setup as an integral from 120 to infinity as there are 120 seconds in 2 minutes and the mean is 95 seconds.
+
+Further integrating after pulling 1/95 outside the integral, the equation becomes:
+$$
+\frac{1}{95} \int_{120}^{\infty} e^{-y / 95} \, dy
+$$
+Then this can become:
+$$
+\frac{1}{95} \left[ -95e^{-y / 95} \right]_{120}^{\infty}
+$$
+This is then:
+$$
+\frac{1}{95} \left[ -95e^{-\infty / 95} + 95e^{-120 / 95} \right]
+$$
+The left side of the addition is zero so this leaves:
+$$
+\frac{1}{95} \left[ 95e^{-120 / 95} \right]
+$$
+The solution becomes:
+$$
+.283
+$$
+
+### Part b.
+
+```{r}
+data = read.csv("PHISHING.csv")
+summary(data)
+```
+The data does seem to follow the exponential distribution as the mean is 95. The mean is the same as the mean of the exponential distribution.
+
+## Task 2
+
+### Part a.
+
+The mean can be found by the following:
+$$
+\text{Mean} = \alpha \cdot \beta = 3 \cdot 0.07 = 0.21
+$$
+
+The variance can be found by the following:
+$$
+\text{Variance} = \alpha \cdot \beta^2 = 3 \cdot (0.07)^2 = 3 \cdot 0.0049 = 0.0147
+$$
+
+### Part b.
+
+Using the empirical rule with 3 standard deviations to see if .60 will fit within the range, the following equations can be user as the lower and upper bound:
+
+$$
+\text{Lower Bound} = \text{Mean} - 3 \times \text{Standard Deviation} = 0.21 - 3 \times 0.1212 \approx -0.1536
+$$
+
+$$
+\text{Upper Bound} = \text{Mean} + 3 \times \text{Standard Deviation} = 0.21 + 3 \times 0.1212 \approx 0.5736
+$$
+
+Based on this information, the .60 will not fall within 3 standard deviations and since this is a pretty open range with 3 standard deviations, the probability of .60 is very low.
+
+## Task 3
+
+### Part a.
+
+Part a can be found by doing:
+$$
+\text{Mean A} = \alpha \cdot \beta = 2 \cdot 2 = 4
+$$
+
+$$
+\text{Mean B} = \alpha \cdot \beta = 1 \cdot 4 = 4
+$$
+
+### Part b.
+
+Part b can be found by doing the following:
+$$
+\text{Variance A} = \alpha \cdot \beta^2 = 2 \cdot (2)^2 = 2 \cdot 4 = 8
+$$
+
+$$
+\text{Variance B} = \alpha \cdot \beta^2 = 1 \cdot (4)^2 = 1 \cdot 16 = 16
+$$
+
+### Part c.
+
+Using the following integrals based on the given hint, the following equations can be used to get the results for comparison:
+A:
+$$
+P(Y < 1) = \int_0^1 \frac{y \, e^{-y / 2}}{4} \, dy
+$$
+B:
+$$
+P(Y < 1) = \int_0^1 \frac{e^{-y / 4}}{4} \, dy
+$$
+The results of these integrals would be:
+A: 0.0903
+B: 0.2212
+
+The value for B is greater than for A. This indicated that B has a higher probability of getting a human reaction less than 1 minute. This is also because of the higher variance found with B.
+
+## Task 4
+
+### Part a.
+
+To find the proportion of all new washers that will have to be repaired, the following equation can be used. The Weibull probability distribution function can be used as it can find the likelihood of a washer needing to be repaired.
+$$
+F(y) = 1 - e^{-y^{\alpha} / \beta} \\
+F(2) = 1 - e^{-2^2 / 4} = 1 - e^{-4 / 4} = 1 - e^{-1} = 1 - 0.36788 = 0.63212
+$$
+
+### Part b.
+$$
+\mu = \beta \cdot \Gamma \left( 1 + \frac{1}{\alpha} \right) 
+= 4^{1/2} \cdot \Gamma \left( \frac{2 + 1}{2} \right) 
+= 2 \cdot \Gamma(1.5) 
+= 2 \cdot 0.88623 
+= 1.77246
+$$
+$$
+\sigma^2 = \beta^2 \left[ \Gamma \left( 1 + \frac{2}{\alpha} \right) - \left( \Gamma^2 \left( 1 + \frac{1}{\alpha} \right) \right) \right] 
+= 4^{2/2} \left[ \Gamma \left( \frac{2 + 2}{2} \right) - \Gamma^2 \left( \frac{2 + 1}{2} \right) \right]
+$$
+
+$$
+= 4 \left[ \Gamma(2) - \Gamma(1.5)^2 \right] 
+= 4 \left[ 1 - (0.88623)^2 \right] 
+= 4 \left( 1 - 0.7854 \right) 
+= 0.8584
+$$
+
+$$
+\sigma = \sqrt{0.8584} 
+\approx 0.9265
+$$
+Therefore the mean is 1.77246 and the standard deviation is 0.9265.
+
+### Part c.
+
+To find P(mean - 2sd <= Y <= mean + 2sd), the following equation can be used:
+$$
+P(1.77246 - 2 \cdot 0.9265 \leq Y \leq 1.77246 + 2 \cdot 0.9265)
+$$
+$$
+P(-0.08054 \leq Y \leq 3.62546)
+$$
+Which then can be put into:
+$$
+= F(3.62546) - F(0) = \left( 1 - e^{-(3.62546 / 4)^2} \right) - \left( 1 - e^{-(0 / 4)^2} \right)
+$$
+$$
+= \left( 1 - e^{-3.286} \right) - (1 - 1) = 1 - 0.0374 = 0.9626
+$$
+Which is the value of P(mean - 2sd <= Y <= mean + 2sd).
+
+### Part d.
+
+For part d, 6 years can be used within P(Y>6) for the probability y will exceed 6 years. This looks like the following:
+$$
+P(Y > 6) = 1 - P(Y \leq 6) = 1 - F(6) = 1 - \left( 1 - e^{-6^2 / 4} \right) = e^{-9} = 0.0001234
+$$
+Since this number would be a very low percentage, it is unlikely tthat Y will exceed 6 years.
+
+## Task 5
+
+### Part a.
+
+The mean can be found by:
+$$
+\mu = \frac{\alpha}{\alpha + \beta} = \frac{2}{2 + 9} = \frac{2}{11} \approx 0.1818
+$$
+The variance can be found by:
+$$
+\mu = \frac{\alpha}{\alpha + \beta} = \frac{2}{2 + 9} = \frac{2}{11} \approx 0.1818
+$$
+
+### Part b.
+
+The probability of at least 40% of the hardware repair budget being used can be found by doing 1 - F(.40), and since n = 2 + 9 - 1 = 10, the following equation can be used:
+$$
+1 - \sum_{y=2}^{10} p(y) = \sum_{y=0}^{1} p(y) = 0.0464
+$$
+### Part c.
+
+Part C can be found by using the same n value of 10 but with F(.10).
+$$
+F(0.10) = \sum_{y=2}^{10} p(y) = 1 - \sum_{y=0}^{1} p(y) = 1 - 0.7361 = 0.2639
+$$
+
+## Task 6
+
+### Part a.
+
+Part A can be found by doing:
+$$
+\alpha = 2 \quad \text{since } y^2 \text{ is to } y^{\alpha}
+$$
+$$
+\beta = 4 \quad \text{since } \beta^2 = 16 \Rightarrow \beta = 4 
+$$
+
+### Part b.
+
+The mean and variance can be found by doing:
+$$
+\text{Mean:} \quad \mu = \beta \cdot \Gamma \left( 1 + \frac{1}{\alpha} \right) 
+= 4 \cdot \Gamma \left( 1 + \frac{1}{2} \right) 
+= 4 \cdot 0.8862 
+= 3.5448
+$$
+$$
+\text{Variance:} \quad \sigma^2 = \beta^2 \left[ \Gamma \left( 1 + \frac{2}{\alpha} \right) - \left( \Gamma \left( 1 + \frac{1}{\alpha} \right) \right)^2 \right] 
+= 4^2 \left[ \Gamma(2) - \Gamma(1.5)^2 \right] 
+= 16 \left( 1 - 0.7854 \right) 
+= 3.4336
+$$
+### Part c.
+
+The probability of new memory chip not failing before 6 years can be found by:
+$$
+P(Y \geq 6) = 1 - P(Y < 6) = 1 - F(6)
+$$
+$$
+F(6) = 1 - e^{-(6 / 4)^2}
+$$
+$$
+= 1 - e^{-2.25}
+$$
+$$
+= 1 - 0.1054
+$$
+$$
+= 0.8946
+$$
+$$
+P(Y \geq 6) = 1 - 0.8946 = 0.1054
+$$
+
+## Task 7
+
+### Part a.
+
+Since a die has 1-6 variables and there is a pair of them there will be two sets of 1<=x<=6, 1<=y<=6 with 36 possible outcomes. This looks like:
+$$
+p(x, y) = \frac{1}{36} \quad \text{for each } (x, y) \text{ where } x, y \in \{1, 2, 3, 4, 5, 6\}
+$$
+
+### Part b.
+
+p1(x) and p2(x) marginal probability distributions can be found by:
+$$
+p1(x) = \sum_{y=1}^{6} p(x, y) = \sum_{y=1}^{6} \frac{1}{36} = \frac{6}{36} = \frac{1}{6}
+$$
+$$
+p2(y) = \sum_{x=1}^{6} p(x, y) = \sum_{x=1}^{6} \frac{1}{36} = \frac{6}{36} = \frac{1}{6}
+$$
+
+### Part c.
+
+The conditional probability distributions for p1 and p2 can be found by:
+$$
+p_1(x | y) = p_1(x) = \frac{1}{6} \quad \text{for each } x \in \{1, 2, 3, 4, 5, 6\}
+$$
+$$
+p_2(y | x) = p_2(y) = \frac{1}{6} \quad \text{for each } y \in \{1, 2, 3, 4, 5, 6\}
+$$
+
+### Part d.
+
+After comparison, the conditional probability distributions for p1 and p2 are the same as the marginal probability distributions for p1 and p2. This means that x and y are independent as one variable is equal to the other.
+
+## Task 8
+
+### Part a.
+
+After counting the occurrences of each time period and energy level, the probabilities would be:
+$$
+p(1,1) = \frac{1}{7}, \quad p(2,1) = \frac{2}{7}, \quad p(2,2) = 0, \quad p(2,3) = 0
+$$
+$$
+p(3,1) = \frac{1}{7}, \quad p(3,2) = \frac{2}{7}, \quad p(3,3) = \frac{1}{7}
+$$
+
+### Part b.
+
+The marginal distribution for p1(x) can be found with:
+
+$$
+p_1(1) = p(1,1) = \frac{1}{7}
+$$
+$$
+p_1(2) = p(2,1) + p(2,2) + p(2,3) = \frac{2}{7} + 0 + 0 = \frac{2}{7}
+$$
+$$
+p_1(3) = p(3,1) + p(3,2) + p(3,3) = \frac{1}{7} + \frac{2}{7} + \frac{1}{7} = \frac{4}{7}
+$$
+
+### Part c.
+
+For p2(x):
+
+$$
+p_2(1) = p(1,1) + p(2,1) + p(3,1) = \frac{1}{7} + \frac{2}{7} + \frac{1}{7} = \frac{4}{7}
+$$
+$$
+p_2(2) = p(1,2) + p(2,2) + p(3,2) = 0 + 0 + \frac{2}{7} = \frac{2}{7}
+$$
+$$
+p_2(3) = p(1,3) + p(2,3) + p(3,3) = 0 + 0 + \frac{1}{7} = \frac{1}{7}
+$$
+
+### Part d.
+
+To find the conditional distribution p2(y|x) the following equations can be used in place of a table:
+$$
+p_2(1 | 1) = \frac{p(1, 1)}{p_1(1)} = \frac{\frac{1}{7}}{\frac{1}{7}} = 1
+$$
+$$
+p_2(2 | 1) = \frac{p(1, 2)}{p_1(1)} = \frac{0}{\frac{1}{7}} = 0
+$$
+$$
+p_2(3 | 1) = \frac{p(1, 3)}{p_1(1)} = \frac{0}{\frac{1}{7}} = 0
+$$
+$$
+p_2(1 | 2) = \frac{p(2, 1)}{p_1(2)} = \frac{\frac{2}{7}}{\frac{2}{7}} = 1
+$$
+$$
+p_2(2 | 2) = \frac{p(2, 2)}{p_1(2)} = \frac{0}{\frac{2}{7}} = 0
+$$
+$$
+p_2(3 | 2) = \frac{p(2, 3)}{p_1(2)} = \frac{0}{\frac{2}{7}} = 0
+$$
+$$
+p_2(1 | 3) = \frac{p(3, 1)}{p_1(3)} = \frac{\frac{1}{7}}{\frac{4}{7}} = \frac{1}{4}
+$$
+$$
+p_2(2 | 3) = \frac{p(3, 2)}{p_1(3)} = \frac{\frac{2}{7}}{\frac{4}{7}} = \frac{1}{2}
+$$
+$$
+p_2(3 | 3) = \frac{p(3, 3)}{p_1(3)} = \frac{\frac{1}{7}}{\frac{4}{7}} = \frac{1}{4}
+$$
+## Task 9
+
+### Part a.
+
+To find f(y) for the marginal density of function Y, the following equation can be used by integrating the joint density function. The form of this problem is an exponential distribution with a rate of 10.
+
+$$
+f(y) = \int_{y}^{2y} f(x, y) \, dx = \int_{y}^{2y} \frac{e^{-y/10}}{10y} \, dx
+$$
+$$
+= \frac{e^{-y/10}}{10y} \int_{y}^{2y} \, dx
+$$
+$$
+= \frac{e^{-y/10}}{10y} \left[ x \right]_{y}^{2y}
+$$
+$$
+= \frac{e^{-y/10}}{10y} \left( 2y - y \right)
+$$
+$$
+= \frac{e^{-y/10}}{10y} \cdot y
+$$
+$$
+= \frac{e^{-y/10}}{10}
+$$
+
+### Part b.
+
+To find the dot estimate for E(Y), the following equation can be used based on the given information:
+
+$$
+E(Y) = \frac{1}{\lambda} = \frac{1}{\frac{1}{10}} = 10
+$$
+
+
+## Task 10
+
+### Part a.
+
+Using the given information for f(x, y), an integral can be created for the ce^-x^2 portion. 
+$$
+\int_{0}^{\infty} \int_{0}^{x} f(x, y) \, dy \, dx = 1
+$$
+This equation can then be set up like:
+
+$$
+= \int_{0}^{\infty} c e^{-x^2} \int_{0}^{x} \, dy \, dx = 1
+$$
+Further integrating the equation will then be:
+
+$$
+c \int_{0}^{\infty} x e^{-x^2} \, dx = 1
+$$
+Where the side with x as infinity would become zero and leave e^0 on the left making 1 with that divided by 2. This would then be:
+$$
+c \cdot \frac{1}{2} = 1 \Rightarrow c = 2
+$$
+
+### Part b.
+
+Since in the previous part,
+$$
+c \int_{0}^{\infty} x e^{-x^2} \, dx = 1
+$$
+was found during one of the steps, the same idea can be applied to part b. Since the new integral is -infinity to +infinity, the result would end up as one because in the above equation, if the exponent of 2 were to be removed the result would end up as one. Therefore the integral for b would equal one. The marginal density can be found by plugging in the new C value back into the equation. This becomes 2xe^(-x^2). 
+
+### Part c.
+
+The equation for conditional density of f(y|x) can be use as:
+
+$$
+f(y | x) = \frac{f(x, y)}{f_1(x)}
+$$
+
+Which will become:
+
+$$
+f(y | x) = \frac{e^{-x^2}}{x e^{-x^2}} = \frac{1}{x}
+$$
+
+## Task 11
+
+To answer this question, the covariance needs to be 0 and have x and y dependent. It can be setup like:
+For E(x):
+
+$$
+P(X = -1) = \frac{1}{12} + \frac{2}{12} + \frac{1}{12} = \frac{4}{12} = \frac{1}{3}
+$$
+$$
+P(X = 0) = \frac{2}{12} + 0 + \frac{2}{12} = \frac{4}{12} = \frac{1}{3}
+$$
+$$
+P(X = +1) = \frac{1}{12} + \frac{2}{12} + \frac{1}{12} = \frac{4}{12} = \frac{1}{3}
+$$
+Then the expected value can be found by using the results in this equation:
+$$
+E(X) = (-1) \cdot \frac{1}{3} + 0 \cdot \frac{1}{3} + 1 \cdot \frac{1}{3} = -\frac{1}{3} + 0 + \frac{1}{3} = 0
+$$
+
+The same can be done for E(y):
+
+$$
+P(Y = -1) = \frac{1}{12} + \frac{2}{12} + \frac{1}{12} = \frac{4}{12} = \frac{1}{3}
+$$
+$$
+P(Y = 0) = \frac{2}{12} + 0 + \frac{2}{12} = \frac{4}{12} = \frac{1}{3}
+$$
+$$
+P(Y = +1) = \frac{1}{12} + \frac{2}{12} + \frac{1}{12} = \frac{4}{12} = \frac{1}{3}
+$$
+$$
+E(Y) = (-1) \cdot \frac{1}{3} + 0 \cdot \frac{1}{3} + 1 \cdot \frac{1}{3} = -\frac{1}{3} + 0 + \frac{1}{3} = 0
+$$
+Both end up equaling zero.
+
+Then for both of them:
+$$
+E(XY) = (-1)(-1) \cdot \frac{1}{12} + (-1)(0) \cdot \frac{2}{12} + (-1)(1) \cdot \frac{1}{12} 
++ 0(-1) \cdot \frac{2}{12} + 0(0) \cdot 0 + 0(1) \cdot \frac{2}{12} 
++ (1)(-1) \cdot \frac{1}{12} + (1)(0) \cdot \frac{2}{12} + (1)(1) \cdot \frac{1}{12}
+$$
+This also equals 0 so for E(XY) - E(X)E(Y) will also equal 0. This means that the covariance is 0. Then to find if they are dependent, joint probabilities and marginal probabilities can be used. 
+
+The equation:
+$$
+P(X = -1, Y = -1) = P(X = -1) \cdot P(Y = -1) = \frac{1}{3} \cdot \frac{1}{3} = \frac{1}{9}
+$$
+Shows that for x = -1 and y = -1, the result should be 1/12 if they are independent. But since the result is 1/9 then they are dependent. 
+
+## Task 12
+
+### Part a.
+
+The E(overline Y) can be found by:
+
+$$
+E(\overline{Y}) = E(Y) = \frac{1 + 3}{2} = \frac{4}{2} = 2
+$$
+This means that the sample mean for the amount of uranium in the reservoirs is 2 parts per million. 
+
+### Part b.
+
+The variance can be found by doing:
+
+$$
+\text{Var}(\overline{Y}) = \frac{\text{Var}(Y)}{n}
+$$
+$$
+\text{Var}(Y) = \frac{(3 - 1)^2}{12} = \frac{4}{12} = \frac{1}{3}
+$$
+$$
+\text{Var}(\overline{Y}) = \frac{\text{Var}(Y)}{n} = \frac{1/3}{60} = \frac{1}{180} \approx 0.00556
+$$
+
+### Part c.
+
+Because of the central limit theorem and using a sample size of 60 for the reservoirs, the sampling distribution of the sample mean will be normal. This is because the sample size is large enough to be considered normal.
+
+### Part d.
+
+The probability between 1.5 ppm and 2.5 ppm can be found by doing:
+
+$$
+P(1.5 < \overline{Y} < 2.5) = P\left( \frac{1.5 - 2}{\sqrt{\text{Var}(\overline{Y})}} < Z < \frac{2.5 - 2}{\sqrt{\text{Var}(\overline{Y})}} \right)
+$$
+
+The lower and upper bounds can be found by:
+
+$$
+\frac{1.5 - 2}{\sqrt{0.00556}} = \frac{-0.5}{0.0746} \approx -6.7
+$$
+$$
+\frac{2.5 - 2}{\sqrt{0.00556}} = \frac{0.5}{0.0746} \approx 6.7
+$$
+Since the Z score is between -6.7 and 6.7, the probability will be 1. This is because the range is so large between the two numbers. 
+
+### Part e.
+
+For the probability of exceeding 2.2 ppm, the equation can be setup like:
+
+$$
+P(\overline{Y} > 2.2) = P\left( Z > \frac{2.2 - 2}{\sqrt{\text{Var}(\overline{Y})}} \right)
+$$
+$$
+\frac{2.2 - 2}{\sqrt{0.00556}} = \frac{0.2}{0.0746} \approx 2.68
+$$
+This can be placed into the following equation like:
+$$
+P(Z > 2.68) \approx 0.0037
+$$
+The result is .37% which is a very low probability.
+
+## Task 13
+
+### Part a.
+
+The SD, Var, and Mean is needed for this part of the question. These can be found by:
+
+$$
+\mu = np = 20 \times 0.4 = 8
+$$
+$$
+\sigma^2 = np(1 - p) = 20 \times 0.4 \times 0.6 = 4.8
+$$
+$$
+\sigma = \sqrt{4.8} \approx 2.19
+$$
+These can then be used in this equation:
+$$
+Z = \frac{X - \mu}{\sigma} = \frac{1.5 - 8}{2.19} \approx \frac{-6.5}{2.19} \approx -2.97
+$$
+$$
+P(Z < -2.97) \approx 0.0015
+$$
+The probability that fewer than 2 of the 20 sowdfish pices exceeding the mercury limit is 0.15%.
+
+### Part b.
+
+For more than half exceeding the following can be used:
+
+$$
+Z = \frac{X - \mu}{\sigma} = \frac{10.5 - 8}{2.19} \approx \frac{2.5}{2.19} \approx 1.14
+$$
+
+$$
+P(Z > 1.14) = 1 - P(Z < 1.14) \approx 1 - 0.8729 = 0.1271
+$$
+
+The probability that more than half of the 20 swordfish pieces exceed the mercury limit is 12.71%.
+
+
+### Part c.
+
+The exact probabilities using the tables can be found by:
+
+$$
+P(Y < 2) = P(Y \leq 1) = 0.0005
+$$
+$$
+P(Y > 10) = 1 - P(Y \leq 10) = 1 - 0.8725 = 0.1275
+$$
+The values in both are ver close so the normal distribution does provide a good approximation to the binomial distribution.
+
+## Task 14
+
+### Part a.
+To find the 99% CI for the lead the following can be used:
+
+```{r}
+data <- data.frame(
+  Lead = c(1.32, 0, 13.1, 0.919, 0.657, 3.0, 1.32, 4.09, 4.45, 0),
+  Copper = c(0.508, 0.279, 0.320, 0.904, 0.221, 0.283, 0.475, 0.130, 0.220, 0.743)
+)
+lead_ci <- t.test(data$Lead, conf.level = 0.99)$conf.int
+lead_ci
+```
+This comes out to (-1.15, 6.92) for the 99% CI for lead.
+### Part b.
+The same R code can be used to geet the interval for Copper:
+
+```{r}
+copper_ci <- t.test(data$Copper, conf.level = 0.99)$conf.int
+copper_ci
+```
+This comes out to (0.152, 0.665) for the 99% CI for copper.
+
+### Part c.
+
+For both of them, it means that there is a 99% confidence that the mean level of lead and copper in the water is within (-1.15, 6.92) and (0.152, 0.665) respectively. This helps indicate how much and how certain each of the levels are in the water.
+
+### Part d.
+
+The 99% confidence means that if 100 samples were taken, 99 of them would have the true mean of lead and copper in the water within the intervals of (-1.15, 6.92) and (0.152, 0.665) respectively. This means there could be a chance of an outlier as its difficult to get to 100 percent confidence without having a very large range.
+
+## Task 15
+
+```{r}
+st_joseph <- c(782, 965, 948, 1181, 1414, 1633, 1852)
+iowaGL <- c(593, 672, 750, 988, 1226, 1462, 1698)
+difference <- st_joseph - iowaGL
+result <- t.test(st_joseph, iowaGL, paired = TRUE, conf.level = 0.95)
+cat("95% Interval: ",result$conf.int, "\n")
+cat("Mean Difference: " ,result$estimate, "\n")
+```
+This means that with 95% confidence that the mean difference between the two sites is between 156.82 and 239.18 with a mean difference of 198. St. Joseph should be receiving more solar than the Iowa Great Lakes. 
+
+## Task 16
+
+### Part a.
+For a 90% confidence interval the following setup can be used:
+
+```{r}
+day <- c(5.4, 2.7, 34.2, 19.9, 2.4, 7.0, 6.1, 7.7, 18.4, 27.1, 16.9)
+night <- c(24.3, 16.5, 47.2, 12.4, 24.0, 21.6, 104.3, 96.9, 105.3, 78.7, 44.6)
+result <- t.test(day, night, paired = TRUE, conf.level = 0.90)
+cat("90% CI: ", result$conf.int, "\n")
+cat("Mean Difference: ", result$estimate, "\n")
+```
+The 90% confidence interval is (-58.899, -18.919) with a mean difference of -38.909.
+
+### Part b.
+
+Some assumptions include the other factors besides Day and Night such as humidity levels, temperature, and wind level which could greatly impact the air samples. This could be interpreted as being natural differences in day and night air samples as things like the temperature drop during the night. But it could also be interpreted as one day and night could have higher temperatures and could have similar results but another day the temperature could change drastically and cause a huge difference in the day vs night samples. In this scenario they should be counted as natural differences in day and night.
+
+### Part c.
+The interval from part a indicates there is a big difference in the levels during the day and the night with there being much lower levels during the day. The range is the range that will be lower during the day. 
+
+
+

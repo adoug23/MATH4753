@@ -21,4 +21,5 @@ Title: Binomial Distribution Simulation
 }
 \examples{
 mybin(iter=100,n=10, p=0.7)
+
 }

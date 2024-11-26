@@ -1,0 +1,82 @@
+---
+title: "R package"
+author: "Andrew Douglass"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+
+
+Congratulations for getting this far. To complete the evidence that you have made a working R package please answer the following by using the supplied rmd  and upload the knitted html to CANVAS.
+
+I will assume your package is called **FALL24DOUG0060** and you have packaged and documented functions `myf1`, `myf2`, `myf3` and `myf4`.
+
+Your actual package name and functions will obviously be called something else.
+
+# First function
+
+Please place your first function in the r chunk in the following way:
+
+Once you are ready please remove the option `eval = FALSE`
+
+```{r first}
+library(FALL24DOUG0060)
+FALL24DOUG0060::myclt(n = 100, iter = 1000, a = 0, b = 5)
+
+```
+
+
+# Second function
+
+Please place your second function in the r chunk in the following way:
+
+Once you are ready please remove the option `eval = FALSE`
+
+```{r second, eval = FALSE}
+set.seed(20)
+x = rnorm(20, mean = 10, sd = 15)
+FALL24DOUG0060::myci(x)
+
+```
+
+
+# Third function
+
+Please place your third function in the r chunk in the following way:
+
+Once you are ready please remove the option `eval = FALSE`
+
+```{r third, eval = FALSE}
+FALL24DOUG0060::myncurve(mu = 25, sigma = 5, a = 30)
+
+```
+
+
+# Fourth function
+
+Please place your fourth function in the r chunk in the following way:
+
+Once you are ready please remove the option `eval = FALSE`
+
+```{r fourth, eval = FALSE}
+FALL24DOUG0060::ntickets(n = 150, gamma = 0.05, p = 0.90)
+
+```
+
+# The github repository
+
+
+
+This is the address of my GITHUB repository:
+<https://github.com/MATHSTATSOU/Intro2R.git>
+
+Replace this with your own address.

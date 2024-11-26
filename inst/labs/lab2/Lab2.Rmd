@@ -1,0 +1,90 @@
+---
+title: "Lab 2"
+author: "Andrew Douglass"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Tasks
+
+## Task 1
+
+```{r}
+getwd()
+```
+
+## Task 2
+
+```{r}
+file <- read.csv("EPAGAS-1.csv")
+head(file)
+```
+
+## Task 3
+
+```{r}
+objMPG <- file$MPG
+zScores <- (objMPG - mean(objMPG))/sd(objMPG)
+zScores
+print("Verifying by matching manually computed first z score value to first value in zScores")
+firstMPG <- file$MPG[1]
+meanMPG <- mean(objMPG)
+sdMPG <- sd(objMPG)
+firstZScore <- (firstMPG - meanMPG)/sdMPG
+firstZScore
+identical(zScores[1], firstZScore)
+print("Z Scores are the same")
+print("Additional Verification:")
+
+print(paste("mean =", round(mean(zScores), digits = 4)), quote=FALSE)
+print(paste("variance =", var(zScores)), quote=FALSE)
+print(paste("standard deviation =", sd(zScores)), quote=FALSE)
+
+
+print("Here are remaining Task 3 items")
+print("Possible Outliers (Items greater than 3 known as defined):")
+objMPG[abs(zScores) >= 2 & abs(zScores) <= 3]
+print("Defined outliers:")
+objMPG[abs(zScores) > 3]
+
+library(lattice)
+lettusColumn <- ifelse(abs(zScores) > 3, "red", ifelse(abs(zScores) >= 2 & abs(zScores) <= 3, "blue", "black"))
+dotplot(objMPG, col = lettusColumn, main = "Outlier Dotplot - MPG")
+```
+
+## Task 4
+
+```{r}
+print("Black boxes make the notch unclear so here are two to cover the parameters:")
+boxplot(objMPG, main = "MPG Variable Box Plot", xlab = "MPG", col = "black", horizontal = TRUE, notch = TRUE)
+boxplot(objMPG, main = "MPG Variable Box Plot", xlab = "MPG", col = "blue", horizontal = TRUE, notch = TRUE)
+
+print("Using this quote from the textbook for the following equation: Any number k greater than 1, at least (1 - 1/k^2) of the measurements will fall within k standard deviations of the mean...")
+
+k <- 2
+pdata <- 1-1/(k^2)
+pdata
+
+exactP <- length(objMPG[abs(zScores) < 2])/length(objMPG)
+exactP
+
+print("Since the therom gave the value of .75 that means the actual value needs to be at least that amount for 2 standard deviations. Since the exact value is .96 then the result does follow the Chebychev rule.")
+
+print("From the texbook, Approximately 95% of the measurements will lie within 2 standard deviations of their mean. Additionally, A data set has an approximately mound-shaped, symmetric distribution. Since the Empirical Rule uses relative frequency along the x-axis, density can be used instead to show visually.")
+
+proportionDensity <- density(objMPG)
+plot(proportionDensity, main = "MPG Density")
+abline(v = mean(objMPG), col = "blue")
+
+print("The result is symmetric and does have a mound-shaped style so the rule can be applied. It corresponds accurately based on the list of MPG's and averages.")
+
+```
+
+

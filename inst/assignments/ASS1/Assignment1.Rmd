@@ -1,0 +1,505 @@
+---
+title: "Assignment 1"
+author: "Andrew Douglass"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Completed 15/15
+# Tasks
+
+## Task 1
+
+```{r}
+getwd()
+
+print("Summary of final grade calculation: The final grade will be based on assignments (4 equal weighted, total 15%), laboratories (Possibly 16 labs, total 10%), projects (2, total 10%, 1st accounts for 1/3 and 2/3 for 2nd), in-class quizzes (total 10%), online Canvas quizzes (total 5%), mid-term exams (total 20%), and the final (30%). Grades are based on: A (90s), B (80s), C (60s/70s), D (50s), F (less than 50), and there is no curving.")
+```
+
+## Task 2
+
+```{r}
+file <- read.csv("DDT.csv")
+head(file)
+```
+
+### Task 2.A
+
+```{r}
+color = as.numeric(factor(file$MILE))
+#niqueColor = length(unique(color))
+
+coplot(LENGTH~WEIGHT|RIVER*SPECIES,data=file,col=color)
+```
+
+### Task 2.B
+
+```{r}
+
+```
+
+
+## Task 3
+
+```{r}
+cat("A. Quantitative \nB. Quantitative \nC. Qualitative \nD. Quantitative \nE. Qualitative \nF. Quantitative \nG. Qualitative")
+```
+
+## Task 4
+
+```{r}
+cat("(a) The names of the four random sampling designs include: MINITAB, stratified random sampling, cluster sampling, and systematic sampling \n(b)\nMINITAB: Is a statistics package that is used to perform random sample procedures. \nStratified Random Sampling: Used when experimental units of the population can be separated into groups where each group has a random item picked. \nCluster Sampling: Utilize natural groupings to collect all data from individual items within the natural group. The individual items are selected at random then all their characterisitcs are utilized. \nSystematic Sampling: More of an equation style selection where every k'th experimental unit is selected from a list of all experimental units.")
+```
+
+## Task 5
+
+```{r}
+mtbe = read.csv("MTBE.csv", header=TRUE)
+head(mtbe)
+dim(mtbe)
+ind = sample(1:223,5,replace=FALSE)
+mtbe[ind,]
+```
+
+### Task 5.A.i, 5.A.ii
+
+```{r}
+#Omiting rows
+mtbeo=na.omit(mtbe)
+
+depth = mtbeo[mtbeo$Aquifier=="Bedrock",]$Depth
+sdDepth = sd(depth)
+sdDepth
+```
+
+## Task 6
+
+```{r}
+eq = read.csv("EARTHQUAKE.csv", header = TRUE)
+#given 2,929 aftershocks, and need 30 selected
+selection = sample(1:2929, 30, replace = FALSE)
+
+randomSelection = eq[selection, ]
+
+randomSelection
+
+```
+
+### Task 6.A
+
+```{r}
+with(eq, plot(ts(eq$MAGNITUDE)))
+
+median(eq$MAGNITUDE)
+```
+
+## Task 7
+
+```{r}
+cat("a. The data was collected by sampling in different locations along the Tennessee River and three tributary creeks. \nb. The population is the fish specimen in the Tennessee River (Alabama). \nc. The qualitative variables include: Location of capture and species.")
+```
+
+## Task 8
+
+### Task 8.A
+
+```{r}
+print("The graph used to describe the data is a bar graph.")
+```
+
+### Task 8.B
+
+```{r}
+print("The robot limbs were measured for the robot designs.")
+```
+
+### Task 8.C
+
+```{r}
+print("According to the bar graph, the social robot design being used the most is the Legs Only design.")
+```
+
+### Task 8.D
+
+```{r}
+n = 15/106
+b = 8/106
+lo = 63/106
+wo = 20/106
+print(paste("None: ", toString(n)))
+print(paste("Both: ", toString(b)))
+print(paste("Legs ONLY: ", toString(lo)))
+print(paste("Wheels ONLY: ", toString(wo)))
+
+```
+
+### Task 8.E
+
+```{r}
+data1 = data.frame(limbs=c('Legs Only', 'Wheels Only', 'None', 'Both'), count=c(15, 8, 63, 20))
+data1
+library(qcc)
+pareto.chart(data1$count, names = data1$limbs)
+```
+
+## Task 9
+
+### Task 9.A
+
+```{r}
+software = c("Windows", "Office", "Explorer")
+freq = c(32, 12, 6)
+pie(freq, labels = software, main = "Pie Chart of Microsoft Software Issues", col = c("blue", "green", "red"))
+
+print("Explorer has the least proportion of issues.")
+```
+
+### Task 9.B
+
+```{r}
+library(qcc)
+reper = c("Denial of service", "Information disclosure", "Remote code execution", "Spoofing", "Privilege elevation")
+freq2 = c(6,8,22,3,11)
+pareto.chart(freq2, names.arg = reper, main = "Pareto Diagram of Repercussions", ylab = "Frequency", xlab = "Repercussion", cex.names = 0.5)
+```
+
+## Task 10
+
+```{r}
+swd=read.csv("SWDEFECTS.csv")
+head(swd)
+library(plotrix)
+tab=table(swd$defect)
+rtab=tab/sum(tab)
+round(rtab,2)
+pie3D(rtab,labels=list("OK", "Defective"),main="Pie Plot of SWD")
+
+print("Based on the pie chart, most modules don't have defects.")
+```
+
+## Task 11
+
+### Task 11.A
+
+```{r}
+voltdata = read.csv("VOLTAGE.csv", header = TRUE)
+
+olddata = voltdata[voltdata$LOCATION == "OLD", ]
+oldVoltData = olddata$VOLTAGE
+
+
+cintervals = cut(oldVoltData, breaks = seq(8.0, 10.6, length.out = 10), right = FALSE)
+freq3 = table(cintervals)
+relFreq = freq3 / sum(freq3)
+
+histogram = data.frame(Class = names(freq3), Frequency = as.vector(freq3), Relative_Frequency = as.vector(relFreq))
+print(histogram)
+
+vectorfreq = as.vector(relFreq)
+names(vectorfreq) = names(freq3)
+
+barplot(vectorfreq, main = "Relative Frequency Histogram", xlab = "Voltage Interval", ylab = "Relative Frequency")
+```
+
+### Task 11.B
+
+```{r}
+stem(oldVoltData)
+```
+
+### Task 11.C
+
+```{r}
+voltdata2 = read.csv("VOLTAGE.csv", header = TRUE)
+
+newdata = voltdata2[voltdata2$LOCATION == "NEW", ]
+newVoltData = newdata$VOLTAGE
+
+
+cintervals2 = cut(newVoltData, breaks = seq(8.0, 10.6, length.out = 10), right = FALSE)
+freq4 = table(cintervals2)
+relFreq2 = freq4 / sum(freq4)
+#data.frame instead of hist()
+histogram = data.frame(Class = names(freq4), Frequency = as.vector(freq4), Relative_Frequency = as.vector(relFreq2))
+print(histogram)
+
+vectorfreq2 = as.vector(relFreq2)
+names(vectorfreq2) = names(freq4)
+
+barplot(vectorfreq2, main = "Relative Frequency Histogram", xlab = "Voltage Interval", ylab = "Relative Frequency")
+```
+
+### Task 11.D
+
+```{r}
+print("The new location has more of its values around the center but still had major drops and rises in voltages. Since there are more voltages within the new set that are below 9.2 volts it can't be said to have a better process.")
+```
+
+### Task 11.E
+
+```{r}
+freshvolt = read.csv("VOLTAGE.csv")
+freshvoltnew = freshvolt[freshvolt$LOCATION == "NEW", ]
+fVN = freshvoltnew$VOLTAGE
+
+freshvoltold = freshvolt[freshvolt$LOCATION == "OLD", ]
+fVO = freshvoltold$VOLTAGE
+
+print("Mean for new: ")
+mean(fVN)
+
+print("Median for new: ")
+median(fVN)
+
+getmode = function(x) {
+  u = unique(x)
+  tab = tabulate(match(x, u))
+  u[tab == max(tab)]
+}
+print("Mode for new: ")
+getmode(fVN)
+
+print("Mean for old: ")
+mean(fVO)
+
+print("Median for old: ")
+median(fVO)
+
+print("Mode for old: ")
+getmode(fVO)
+
+print("Mode will not be the preferred measure as for the old section, there are multiple occurences of the same amount. Since there aren't any extreme values (Most stay around 9 - 10) then Mean would be a good option as Median would be good for when there are extreme values as those won't be taken into consideration as much.")
+```
+
+### Task 11.F
+
+```{r}
+print("Z Score for old location: ")
+(10.5 - mean(fVO))/sd(fVO)
+```
+
+### Task 11.G
+
+```{r}
+print("Z Score for new location: ")
+(10.5 - mean(fVN))/sd(fVN)
+```
+
+### Task 11.H
+
+```{r}
+print("The location would be for the old data as it had a lower z score value.")
+```
+
+### Task 11.I
+
+```{r}
+boxplot(fVO)
+
+print("There is an outlier at 8.0 although it is still something to consider given the total number of points for each old and new being around 30")
+```
+
+### Task 11.J
+
+```{r}
+print("That point previously is an outlier: ")
+fVO[abs((fVO-mean(fVO))/sd(fVO)) > 3]
+```
+
+### Task 11.K
+
+```{r}
+boxplot(fVN)
+print("No outlier circles.")
+```
+
+### Task 11.L
+
+```{r}
+print("Output does not find an outlier and returns this instead: ")
+fVN[abs((fVN-mean(fVN))/sd(fVN)) > 3]
+```
+
+### Task 11.M
+
+```{r}
+boxplot(fVO, fVN)
+print("The plot on the left is the old and right is the new. After comparison, it is seen that only the old side has outliers and the new side is more concentrated in the middle. Since good readings are above 9.2 volts, the new setup would be more risky with its close concentration near 9.5. Since the old side would only have outliers ending up below 9.5 it is a difficult decision on which is a better process.")
+```
+
+
+
+
+
+
+
+
+## Task 12
+
+```{r}
+print("Emprical Rule can be used as 95% of data will be within 2 standard deviations of mean.")
+
+roughdata = read.csv("ROUGHPIPE.csv")
+meanrough = mean(roughdata$ROUGH)
+sdrough = sd(roughdata$ROUGH)
+lowerInterval = meanrough - 2 * sdrough
+upperInterval = meanrough + 2 * sdrough
+
+cat("The interval will be from (", lowerInterval, ", ", upperInterval, ")")
+```
+
+## Task 13
+
+### Task 13.A
+
+```{r}
+ants = read.csv("GOBIANTS.csv")
+
+print("Mean: This shows average amount of ant species.")
+mean(ants$AntSpecies)
+
+print("Median: This represents the middle ant species amount as in, given the total listing of ants the median would be the amount of ant species directly in the middle of all the other ant listings.")
+median(ants$AntSpecies)
+
+print("Mode: This the amount of times a certain amount of ant species is the same. If the mode is 0 then most places have 0 species of ants. Mode doesn't work so I will be using the following method.")
+
+getmode = function(x) {
+  u = unique(x)
+  tab = tabulate(match(x, u))
+  u[tab == max(tab)]
+}
+
+getmode(ants$AntSpecies)
+```
+
+### Task 13.B
+
+```{r}
+print("For finding the central tendency, it would be a mixture of median and mode as the median values can be taken, + or -, for 1 or two 2 extra entries to select a few middle portions and then using mode to determing how many of which are occuring more often. This is a bit much so if it were one or the other, median would be best at picking the center number of ant species.")
+```
+
+### Task 13.C
+
+```{r}
+print("Mean: ")
+antsDS = ants[ants$Site < 6]
+mean(antsDS$PlantCov)
+
+print("Median: ")
+median(antsDS$PlantCov)
+
+print("Mode: ")
+getmode(antsDS$PlantCov)
+```
+
+### Task 13.D
+
+```{r}
+print("Mean: ")
+antsGD = ants[ants$Site >=6,]
+mean(antsGD$PlantCov)
+
+print("Median: ")
+median(antsGD$PlantCov)
+
+print("Mode: ")
+getmode(antsGD$PlantCov)
+```
+
+### Task 13.E
+
+```{r}
+print("Yes, the center distribution does seem to be different. The mean and median both have lower values for the 5 Dry Steppe's. There is one similar mode between the both however.")
+```
+
+## Task 14
+
+### Task 14.A
+
+```{r}
+galaxy = read.csv("GALAXY2.csv")
+
+galaxyfreq = table(galaxy$VELOCITY)
+barplot(galaxyfreq, main = "Graphical Method for Velocity Distribution", xlab="Velocity", ylab="Frequency", ylim = c(0, max(galaxyfreq) + 2))
+
+#library(ggplot2)
+#ggplot(galaxy, aes(X = VELOCITY)) + labs(title = "Bar Chart", x = "Velocity", y = "Frequency")
+
+print("Based on the graph, it can be seen that there are no duplicates. When looking at the x axis values, it can be seen that most of the points are in the 22XXX range as well.")
+```
+
+### Task 14.B
+
+```{r}
+print("There is a bit of evidence to support the double cluster theory. When looking at the X axis, the next concentration besides the one above is between 1900s-20000s. Since there are two of these, the double cluster theory could be applied.")
+```
+
+### Task 14.C
+
+```{r}
+print("Two sets will need to be taken based on my previous assumption. Since one range is 1900-20000 and one for the 22000s, a line can be set at 21000 for each side when getting mean and SD.")
+
+galaxylower = galaxy$V[galaxy$V < 21000]
+galaxyupper = galaxy$V[galaxy$V > 21000]
+
+
+print("Mean for < 21000: ")
+mean(galaxylower)
+
+print("Standard Deviation < 21000: ")
+sd(galaxylower)
+
+print("Mean for > 21000")
+mean(galaxyupper)
+
+print("Standard Deviation > 21000: ")
+sd(galaxyupper)
+```
+
+### Task 14.D
+
+```{r}
+print("For a galaxy velocity of 20,000 km/s, it would belong in the cluster for values < 21000 as the mean for that section would only be 500 km/s off compared to more than 2,000 km/s off.")
+```
+
+## Task 15
+
+```{r}
+library(ggplot2)
+ddt = read.csv("DDT.csv")
+ggplot(ddt, aes(x = RIVER, y = LENGTH)) + ggtitle("Andrew Douglass") + geom_boxplot(aes(fill = SPECIES))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

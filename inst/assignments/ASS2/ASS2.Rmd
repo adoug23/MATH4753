@@ -1,0 +1,334 @@
+---
+title: "Assignment 2: MATH 4753"
+author: "Andrew Douglass"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+    theme: spacelab
+    highlight: pygments
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Completed: 17/17
+
+#Tasks
+
+## Task 1 - MS 3.36
+
+### Part A
+
+Given: Matched Prints, select Expert. Find: Probability of expert failing to identify.
+
+To do this the condition Match is selected with the expert value. This is .9212. To find the probability, 1 - Probability can be used to find the probability of failure. This is 1 - .9212 = .0788.
+
+### Part B
+
+Given: Matched Prints, select Novice. Find: Probability of novice failing to identify.
+
+Since the value based on the condition is .7455, the probability of failure is 1 - .7455 = .2545.
+
+### Part C
+
+Given: 10 Participants, 5 Experts, 5 Novices. Find: If the participant more likely to be an expert or novice when a pair of matched prints are presented to a randomly selected study participant and the participant fails to identify the match.
+
+The participant is more likely to be a novice as the probability of a novice failing to identify is higher than for the expert. This is .2545 > .0788.
+
+## Task 2 - MS 3.52
+
+### Part A
+
+Given: Athlete as user. Find: Probability of positive result
+If 100 users are using then 50 of them will have positive results. Therefore there is a 50% chance of a positive result as 50/100 = .50
+
+### Part B
+
+Given: Non-user. Find: Probability of negative result of only non-users
+
+Out of 1000 users 100 will have 50 with positive cases. The other 900 users will have 9 people test positiive. 
+Therefore 1 - 9/900 = 0.99 chance of negative
+
+### Part C
+
+Given: Positive result. Find: Probability of doping
+Since for 1000 people, 50 would test positiive from actual users and 9 will be accidentally testing positive from the non-user group. 
+
+Using this portion of Baye's method, P(A|E) = (P(A (intersection) E))/(P(e)) the following equation 
+can be made because 50 of the people would be doping and 59 would be testing positively because of the extra 9.
+
+This is 50/(50 + 9) = 0.8475 = 84.75% 
+  
+## Task 3 - Theorem 3.1
+
+The best way to show the multiplicative rule theorem is through the table describing the theorem. However since the table uses n1, n2, etc. values, describing it with actual numbers will help prove the theorem. If there were to be two sets of elements with the first having 2, 3, 4 and the second being 3, 4, 5, then since there are (n(1), n(2)) of a(i), b(j) then the total number of elements that will be shown in the table would be 9 because (n(1) * n(2)) = 3 * 3 = 9.
+
+## Task 4 - Theorem 3.2
+
+The permutations rule theorem can be shown with an example to see if the equation related to the theorem is correct. If there are 4 elements in a set there will be 24 permutations total. This is because 4! = 4 * 3 * 2 * 1 = 24. Since the rule wants a selection of n elements, then the equation would be n!/(n-r)!. If there were to be 4 elements and 2 were selected, then the equation would be 4!/(4-2)! = 4!/(2)! = 24/2 = 12. If 3 of the elements were to be selected then the equation would be 4!/(4-3)! = 4!/(1)! = 24/1 = 24. The results of this is expected as more elements would have more distinct ways to arrange them. 
+
+## Task 5 - Theorem 3.3
+
+The partitions rule theorem can be shown similarly to how theorem 3.2 was. Since N represents the number of elements then N! will give the total number of permutations. Then for the bottom portion, since each set itself can also be rearranged, then for each k there needs to be a rearrangement as in n(k)!. This will need to be the divisor for the equation as its the groups N is splitting into. Therefore the equation would turn out to be N!/(n(1)! * n(2)! * n(3)! * ... * n(k)!). 
+
+## Task 6 - Theorem 3.4
+
+The combinations rule theorem is very similar to the permutations rule theorem but in this case order doesn't matteer. Therefore something like A,B is the same as B,A which would result in a smaller number of combinations compared to permutations. Using the same equation as permutations, an additional variable needs to be added in the denominator to account for the order not mattering. This would be n! as the denominator. Therefore the equation would be n!/(n-r)! * r! to account for the order not mattering. n! comes from the number of ways to order that selected number of elements chosen to be in the set. Dividing N! by n! in addition to (N-n) would give the number of combinations.
+
+## Task 7 - 4.2
+
+### Part A
+
+Just adding the values in the table: .09 + .30 + .37 + .20 + .04 = 1
+
+### Part B
+
+Adding homes 3 and 4's probabilities: .20 + .04 = .24
+
+### Part C
+
+Adding homes 1 and 2's probabilities: .09 + .30 = .39
+
+## Task 8 - 4.12
+
+### Part A
+
+To show that the properties of a probability distribution for a discrete random variable are satisfied the total probability must be 1. Therefore from index 0 to 20: .17 + .10 + .11 + .11 + .10 + .10 + .07 + .05 + .03 + .02 + .02 + .02 + .02 + .02 + .01 + .01 + .01 + .01 + .01 + .005 + .005 = 1 which does satisfy.
+
+### Part B
+
+To Find P( Y >= 10) the values from 10 to 20 are added together the following values would be selected and added together: .02 + .02 + .02 + .02 + .01 + .01 + .01 + .01 + .01 + .005 + .005 = .14
+
+### Part C
+
+To find the mean of Y the eqaution E(Y) = sum(y * P(y)) is used. Therefore the following equation is used: 0 * .17 + 1 * .10 + 2 * .11 + 3 * .11 + 4 * .10 + 5 * .10 + 6 * .07 + 7 * .05 + 8 * .03 + 9 * .02 + 10 * .02 + 11 * .02 + 12 * .02 + 13 * .02 + 14 * .01 + 15 * .01 + 16 * .01 + 17 * .01 + 18 * .01 + 19 * .005 + 20 * .005 = 4.655 as the mean.
+
+To find the variance of Y the equation E(Y^2) - mean^2 is used. Therefore the following equation is used: 0^2 * .17 + 1^2 * .10 + 2^2 * .11 + 3^2 * .11 + 4^2 * .10 + 5^2 * .10 + 6^2 * .07 + 7^2 * .05 + 8^2 * .03 + 9^2 * .02 + 10^2 * .02 + 11^2 * .02 + 12^2 * .02 + 13^2 * .02 + 14^2 * .01 + 15^2 * .01 + 16^2 * .01 + 17^2 * .01 + 18^2 * .01 + 19^2 * .005 + 20^2 * .005 = 41.525 - 4.655^2 = 19.86 as the variance.
+
+### Part D
+
+The interval that will contain the value of Y with a probability of at least .75 can be found by using the empirical rule equation which is mean +/- 2 * sqrt(variance). Therefore the following equation is used: 4.655 +/- 2 * sqrt(19.86) = (4.655 - 2 * sqrt(19.86), 4.655 + 2 * sqrt(19.86)) = (-4.26, ) = (-4.255, 13.57) = (0, 13.57) since there is nothing under 0. 
+
+## Task 9 - 4.34
+
+### Part A
+
+Find probability where Y = 10.
+
+Using the binomial distribution formula: q = 1-.7:  (25 choose 10) * (.7)^10 * (.3)^15 = .132%
+
+### Part B
+
+Find probability where Y <= 5.
+
+Using the binomial distribution formula: 1 - P(Y > 5) = 1 - (25 SUMMATION y = 6) (25 choose y) * (.7)^y * (.3)^(25-y) = 1 - .999 = .001 or .1%
+
+### Part C
+
+Finding the mean for Y
+
+Using the formula E(Y) = n * p: 25 * .7 = 17.5
+
+Finding the standard deviation for Y
+
+Using the formula sqrt(n * p * q): sqrt(25 * .7 * .3) = 2.291
+
+### Part D
+
+The mean and standard deviation from part c indicates that for the sample of 25 students the number of students who will earn the degree is around 18 with a standard deviation of 2.291.
+
+## Task 10 - 4.46
+
+### Part A
+
+For this type of problem the multinomial distribution formula can be used. This would create the equation: (50 /  5!,5!,5!,5!,5!,5!,5!,5!,5!,5!) * (1/10)^50 = 8.075E - 70 (Commas are used in place of *). This is because there are 50 trains and 10 tracks with each of those tracks having 5 trains which are random so 5! is used for each of the tracks. 
+
+### Part B
+
+For this type of problem the binomial distribution formula can be used. Since the problem is in the form Probability of X1 (the track 1) < 2) This would create the equation: (50 choose 0) * (1/10)^0 * (9/10)^50 + (50 choose 1) * (1/10)^1 * (9/10)^49 = .0052 + .0286 = .0338. 
+
+## Task 11 - 4.54
+
+### Part A
+
+Since Y is the number of consumers who must be interviewed until one indicates something other than information given directly on the product's label or packaging as the reason a product is green. This can be simplified to number of customers to be interviewed till they mention something other than the label or packaging as the reason for the product being green.
+
+To find the probability distribution for Y, P can be all the items from the chart where the mentioned information is removed. This becomes P = P(Reading information...) + P(Advertisement) + P(Brand Website) + P(Other) = .12 + .06 + .04 + .18 = .4.
+
+### Part B
+
+To find E(y) the formula E(Y) = 1/P can be used. Therefore E(Y) = 1/.4 = 2.5. This means that on average 2.5 customers will need to be interviewed until one mentions something other than the label or packaging as the reason for the product being green.
+
+### Part C
+
+To find the probability where Y = 1, the formula P(1) = pq^(y-1) where .4(.6)^(1-1) = .4.
+
+### Part D
+
+To find the probability where Y > 2, the formula 1 - p(1) + p(2) = 1 - .4 - .24 = .36. As p(2) = .4(.6)^(2-1) = .24.
+
+## Task 12 - 4.66
+
+### Part A
+
+Of 209 facilities only 8 treated hazardous waste on-site. In a random sample of 10 out of 209 facilities the expected number that treats hazardous waste on-site would be found by the following: Since 8 out of 209 were treating hazardous waste on-site, the ratio would be 8/209 = .0383. Therefore for 10 facilities the expected number would be 10 * .0383 = .383. This result indicates that despite picking 10 of the facilities the expected number of facilities that treat hazardous waste on-site is closer to being none rather then having one. 
+
+### Part B
+
+The probability that 4 of the 10 selected facilities that treat hazardous waste on site can be found using the hypergeometric distribution formula. (r choose y) * (N-r choose n-y) / (N choose n) with the values N = 209, n = 10, r = 8, y = 4 This would be (8 choose 4) * ((209-8) choose (10-4)) / (209 choose 10) = .0001. 
+
+
+## Task 13 - 4.78
+
+### Part A
+
+Number of casualties in a vessel over a 3-year period is Poisson random variable Y. E(y) = .03. 
+
+The variance of Y can be found using the equations E(y) = lambda and Var(y) is also equal to lambda. So the result is .03.
+
+### Part B
+
+To see if its plausible the characteristics of a poisson random variable includes counting the times an event occurs during a specific time or area or volume. Additionally: The event occurs in a given unit of time, area, or volume where its the same for all units. Finally: The number of events occur in a selected unit is independent in the number of the other units. 
+
+Based on the scenario, all of the requirements are met since there is a 3 year period and the other unit is the casualties. 
+
+### Part C
+
+The Poisson distribution can be used with the formula p(y) = lambda^y * e^(-lambda) / y! with the values lambda = .03 and y = 0 for the casualties. This would be .03^0 * e^(-.03) / 0! = .9704.
+
+## Task 14 - 5.2
+
+### Part A
+
+The value of c can be found using an integral from 0 to 1, c(2 - y) = 1. After integrating the equation, c(2y - y^2/2) = 1, from 0 to 1. This would be c(3/2) = 1. Therefore c = 2/3.
+
+### Part B
+
+The cumulative distribution function F(y) can be found by integrating the probability density function f(y) from 0 to y. This would be integrating from 0 to y of (2/3) * (2 - y) * dy. This would be (2/3) * (2y - y^2/2) from 0 to y where y is less than or equal to 1, similarly to c(2 - y).
+
+### Part C
+
+For F(.4) the equation would be (2/3) * (2(.4) - (.4)^2/2) = (2/3) * (.8 - .08) = (2/3) * .72 = .48.
+
+### Part D
+
+For probability(.1 <= Y <= .6) the equation from part B can be used. This would be the integral from .1 to .6 of (2/3) * (2 - y) dy. This would be (2/3) * (2y - y^2/2) from .1 to .6. This would be (2/3) * (2(.1) - (.1)^2/2) - (2/3) * (2(.6) - (.6)^2/2) = .55. 
+
+## Task 15 - 5.10
+
+### Part A
+
+The mean can be found by integrating from -5 to 5 of y * f(y) dy. This would become from -5 to 5 of y * ((3/500) * (25 - y^2)) dy. This would be (3/500) * (25y^2/2 - y^4/4) from -5 to 5. This would be (3/500) * (25(25/2) - 5^4/4) - (3/500) * (25(25/2) - 5^4/4) = 0.
+
+To find the variance, the equation E(Y^2) - E(Y) can be used. This would be the integral from -5 to 5 of y^2 * f(y) dy - 0. This would be the integral from -5 to 5 of y^2 * ((3/500) * (25 - y^2)) dy. This would be (3/500) * (25y^3/3 - y^5/5) from -5 to 5 = 5. 
+
+### Part B
+
+To find the hourly equivalent for the mean, since the mean is zero it will also be zero because E(y)/60 = 0/60 = 0.
+
+For the variance, the hourly equivalent can be found by dividing the variance by 60^2. This would be 5/60^2 = .0014.
+
+### Part C
+
+The mean will also be 0.
+
+The variance will be 60^2 * 5 instead of dividing which is 18000.
+
+## Task 16 - 5.36
+
+### Part A
+
+Exceeding 45 milligrams per liter:
+
+With mean = 50, standard deviation = 3.2, and x = 45, the z-score can be found using the formula z = (x - mean) / standard deviation. This would be (45 - 50) / 3.2 = -1.5625. Using the z-table, the probability of exceeding 45 milligrams per liter is .94.
+
+### Part B
+
+Below 55 milligrams per liter:
+
+With x = 55, it would be (55 - 50) / 3.2 = 1.5625. Using the z-table, the probability of below 55 milligrams per liter is .94.
+
+### Part C
+
+Between 51 and 52 milligrams per liter:
+
+With x = 51, it would be (51 - 50) / 3.2 = .3125. With x = 52, it would be (52 - 50) / 3.2 = .625. For P(51<=x<=52) it would be P(z<=.625) - P(z<=.3125) = .11.
+
+## Task 17 - 5.38
+
+### Part A
+
+```{r}
+cdata = read.csv("CRASH.csv")
+head(cdata)
+#For probability the rating falls between 500 and 700 points:
+#Given:
+mean = 605
+std = 185
+
+#Z scores for 500 and 700
+z500 = (500 - mean) / std
+z700 = (700 - mean) / std
+
+p500 = pnorm(z500)
+p700 = pnorm(z700)
+p700 - p500
+```
+
+### Part B
+
+```{r}
+#For probability between 400 and 500:
+z400 = (400 - mean) / std
+z500 = (500 - mean) / std
+
+p400 = pnorm(z400)
+p500 = pnorm(z500)
+p500 - p400
+```
+
+### Part C
+
+```{r}
+#Find probability rating will be less than 850
+z850 = (850 - mean) / std
+pnorm(z850)
+```
+
+### Part D
+
+```{r}
+#Probability the rating will exceed 1,000
+z1000 = (1000 - mean) / std
+1 - pnorm(z1000)
+```
+
+### Part E
+
+```{r}
+#The rating that only 10 percent of the crash tested cars exceed. This will give a 90th percentile.
+qnorm(.9, mean, std)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

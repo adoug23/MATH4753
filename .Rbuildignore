@@ -1,2 +1,9 @@
-^.*\.Rproj$
-^\.Rproj\.user$
+^\\.git$                # Exclude .git
+^inst/labs/lab5/Lab5.html$
+^inst/labs/lab6/lab6.html$
+^.*\.Rproj$             # Exclude RStudio project files
+^\.Rproj\.user$         # Exclude RStudio user files
+^\\.DS_Store$           # Exclude random mac stuff
+^Thumbs\\.db$           # Exclude Random windows stuff
+^inst/.*/.*\\.docx$     # Exclude Word docs
+^inst/.*/.*\\.mp4$      # Exclude MP4

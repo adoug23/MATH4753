@@ -1,0 +1,256 @@
+---
+title: "Assignment 4: MATH 4753"
+author: "Andrew Douglass"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Completed: 10/10
+
+# Tasks
+
+## Task 1
+
+### Part a
+
+```{r}
+data = read.csv("NZBIRDS.csv")
+#Read in random sample of 35 species 
+set.seed(35)
+sample = data[sample(nrow(data), size=35), ]
+head (sample)
+
+```
+
+### Part b
+
+```{r}
+#Calculating the mean and SD of 35 samples for body mass 
+bodyMass = sample$Body.Mass
+meanMass = mean(bodyMass)
+sdMass = sd(bodyMass)
+
+#95% CI for 116 bird species 
+alpha = 0.05
+t_alpha = qt(1 - alpha / 2, df = 34)
+lowerCI = meanMass - t_alpha * (sdMass / sqrt(35))
+upperCI = meanMass + t_alpha * (sdMass / sqrt(35))
+
+cat("95% CI: (", lowerCI, ", ", upperCI, ")\n")
+cat("Mean: ", meanMass, "\n")
+cat("SD: ", sdMass, "\n")
+```
+
+### Part c
+
+
+The standard deviation is much larger than the mean. This indicates there is a large spread in the data. Since it is also outside the range of the confidence interval, then there must be some really large outliers in the data. After further inspection there are some very large masses further down in the data.
+
+### Part d
+
+The confidence interval does contain the mean given by the MINITAB (9113). It is right in the middle of the interval as well. The interval is likely to contain this at the current interval range is already very big and the mean used in the CI interval calculation so there is a relation. 
+
+### Part e
+
+```{r}
+#Repeating parts b - d with egg length
+eggLength = sample$Egg.Length
+eggLength
+
+meanEgg = mean(eggLength, na.rm = TRUE)
+sdEgg = sd(eggLength, na.rm = TRUE)
+meanEgg
+sdEgg
+
+alpha = 0.05
+t_alpha = qt(1 - alpha / 2, df = 34)
+lowerCI2 = meanEgg - t_alpha * (sdEgg / sqrt(35))
+upperCI2 = meanEgg + t_alpha * (sdEgg / sqrt(35))
+
+cat("95% CI: (", lowerCI2, ", ", upperCI2, ")\n")
+cat("Mean: ", meanEgg, "\n")
+cat("SD: ", sdEgg, "\n")
+```
+The interval is from 45.05 to 77.22. This range is much smaller and this time the standard deviation is included in the interval. This indicates that the data is more consistent and there are no large outliers. The true mean in the MINITAB printout is also within the interval. This is expected as covered previously but looking at the data itself, the interval and mean both make sense as there are only a few outliers that are above 100. 
+
+### Part f
+
+Finding the proportions: p(1) = 21/28 = .5526, p(2) = 7/78 = .0897. Then to find the error, we use the formula sqrt(p(1)(1-p(1))/n(1) + p(2)(1-p(2))/n(2)) = sqrt((.5526 * (1-.5526)/38 + .0897 * (1-.0897)/78)) = .087. Then the margin of error is 1.96(z value) * .087 = .171 The 95% CI is then p(1) - p(2) +/-  .171 = .463 +- .171 = (.292, .634) which is the interval. 
+
+### Part g
+
+Based on the interval, the values are positive but still pretty low. This indicates that the data does support the theory that the proportion of flightless birds is higher for extinct than nonextinct birds. 
+
+## Task 2
+
+### Part a
+
+Difference in means would be: 1312 - 1352 = -40. Error can be found by sqrt((422^2 / 100) + (271^2 / 47)) = 57.82. Then with 90% interval the margin of error would be 1.645 * 57.82 = 95.11. The interval would be -40 +/- 95.11 = (-135.11, 55.11).
+
+### Part b
+
+The variances can be found using the SD for each of the tree types. (422)^2 / (271)^2 = 2.42. Then using a F table, the lower tail and upper tail would be 1.84 and .54 respectively. This is used in finding the lower and upper limit which would be (2.42/1.84) and (2.42/.54) which comes out to: (1.32, 4.48). Based on this there is a difference between them. If there wasn't the values would be much closer and smaller. It also doesn't include 1 in the interval. 
+
+## Task 3
+
+### Part a
+
+Based on this part of theorem 6.11, (n-1)s^2 / pop variance, and since n = 1, then it comes out to s^2 / pop variance. This is the ratio of the sample variance to the population variance. and comes out to x^2.
+
+### Part b
+
+Splitting the 5% from 95% interval, the lower tail becomes .025 and upper tail becomes .975. This comes out to 5.024 and .001 using a chi square table. Then the confidence interval can be (y^2/0.001 , y^2/5.024).
+
+## Task 4
+
+### Part a
+
+The null and alternative hypothesis for both would be mean = 2 and mean != 2. This is because the null hypothesis is always the same and the alternative is the opposite.
+
+### Part b
+
+The test statistic is -1.02 and the p value is .322.
+
+### Part c
+
+The degree of freedom would be 19 and with a .05 significance level (divide by 2 for two), the critical value would be +-2.093 and there will be a reject when the the test statistic is less then -2.093 or greater than 2.093.
+
+### Part d
+
+The T value is -1.02 which is not in those regions so the null hypothesis is not rejected. 
+
+### Part e
+
+Both of the confidence interval and test statistic are pretty much checking the same thing so their conclusions should be similar. 
+
+## Task 5
+
+### Part a
+
+Since the mean DOC value is 15 then the hypothesis can be setup as Null: Mean = 15, Alternative: Mean != 15. Then getting the sample mean, 362.9/25 = 14.52. The sample standard deviation would be 12.96 with the 25 sample size. This is used in calculating the t statistic using t = (14.52 - 15) / (12.96 / sqrt(25)) = -0.19. Then with a t table, the critical values would be if t > 1.71 then reject and if its less or equal to then fail to reject. Since the value of .19 is less than that amount, then its failed to reject the null hypothesis. Therefore there is no evidence that would make the mean DOC different from the population mean.
+
+### Part b
+
+Using the T formula, 15-1.711 * 12.96 / sqrt(25) = 15-4.436 = 10.565 for -t and for +t, 15 + 1.711 * 12.96 / sqrt(25) = 15 + 4.436 = 19.435. This would have rejections when less than 10.565 or greater than 19.435. Then calculating the probabilities, (10.565 - 14)/2.592 = -3.435/2.592 = -1.33 and (19.435 - 14)/2.592 = 5.435/2.592 = 2.1. This would then become 0.0989 and 0.0322 after using the t table. The total p value would be 0.0989 + 0.0322 = 0.1311 which is the likelihood. 
+
+## Task 6
+
+The hypothesis for this test would be Null: mean 1 - mean 2 = 0 and Alternative: mean 1 - mean 2 != 0. The pooled variance can be found by ((8-1) * .1186^2 + (4-1) * .1865^2 ) / (8 + 4 - 2) = .02028. Then using the test statistic equation, (.2738 - .4521 - 0)/ sqrt(.02028(1/8 + 1/4)) = -2.045. Then using a t table, the values with the given significance level of 0.05 would be +-2.228 (dividing by 2 and using 10 as df). Since -2.045 is not in the region then the null hypothesis is not rejected.
+
+## Task 7
+
+### Part a
+
+The null hypothesis would be variance (1) = variance (2) and the alternative would be variance (1) != variance (2). Finding the f statistic using larger variance over smaller variance, 2652^2 / 1279^2 = 4.299. Then the df can be found by doing 7-1 = 6 and 39-1 = 38. This would make a rejection region of 2.763 and since 4.299 is greater than 2.763, the hypothesis would be rejected as the variances in the heat rates are very different.
+
+### Part b
+
+Using a similar hypothesis, the test statistic can then be found by (2652^2 / 639^2) = 17.21. Then the df is found by 7-1 = 6 and 21-1 = 20. Which would result in the region to be 3.13. Since 17.21 is greater than 3.13, the null hypothesis would be rejected.
+
+## Task 8
+
+### Part a
+
+The hypothesis would be variance (1) = variance (2) and variance (1) != variance (2). 
+
+### Part b
+
+
+```{r}
+data <- read.csv("GOBIANTS.csv")
+
+head(data)
+
+dry_steppe <- data$AntSpecies[data$Region == "Dry Steppe"]
+gobi_desert <- data$AntSpecies[data$Region == "Gobi Desert"]
+
+var_test <- var.test(dry_steppe, gobi_desert)
+print(var_test)
+
+```
+
+### Part c
+
+```{r}
+df1 <- length(dry_steppe) - 1
+df2 <- length(gobi_desert) - 1
+
+alpha <- 0.05
+flower <- qf(alpha / 2, df1, df2)
+fupper <- qf(1 - alpha / 2, df1, df2)
+
+cat("Rejection Region: < ", flower, " or > ", fupper, "\n")
+
+```
+
+### Part d
+
+```{r}
+cat("p-value: ", var_test$p.value, "\n")
+```
+
+
+### Part e
+
+Since the 1.368432 is not in the rejection region, the null hypothesis is not rejected. Therefore there is not enough evidence to say the number of ant species in the two regions are different.
+
+### Part f
+
+To make the test results valid, there should be outliers as that can throw off the data. There should also be a large enough sample size. There also needs to be the same testing methods used for both regions.
+
+## Task 9
+
+The null hypothesis would be mean 1 - mean 2 = 0 and the alternative would be mean 1 - mean 2 != 0.
+
+Then after getting the mean differences from the data, it can then be used in the standard deviation of differences equation with a sample size of 8. This comes out to 35.0. Then the equation (-32.6 - 0)/(35/sqrt8) = -2.63 for the t statistic. Then using the df = 7 and 0.05 significance, the critical values would be +- 2.365. Since the test statistic is in the rejection region, the null hypothesis is rejected.
+
+## Task 10
+
+```{r}
+myboot <- function(iter = 10000, x, fun = "mean", alpha = 0.05, ...) {
+  n <- length(x)
+  
+  y <- sample(x, n * iter, replace = TRUE)
+  rs.mat <- matrix(y, nr = n, nc = iter, byrow = TRUE)
+  xstat <- apply(rs.mat, 2, match.fun(fun))
+  ci <- quantile(xstat, c(alpha / 2, 1 - alpha / 2))
+  
+  bar_colors <- rainbow(10)
+  para <- hist(xstat, freq = FALSE, las = 1, main = paste("Histogram of Bootstrap sample statistics", "\n", "alpha=", alpha, " iter=", iter, sep = ""), col = bar_colors, ...)
+  
+  pte <- mean(x)
+  se <- sd(x) / sqrt(n)
+  theoretical_ci <- c(pte - qt(1 - alpha / 2, df = n - 1) * se, pte + qt(1 - alpha / 2, df = n - 1) * se)
+  abline(v = pte, lwd = 3, col = "Black")
+  
+  segments(ci[1], 0, ci[2], 0, lwd = 4, col = "Red")
+  segments(theoretical_ci[1], 0, theoretical_ci[2], 0, lwd = 4, col = "Blue")
+  
+  text(ci[1], 0, paste("(", round(ci[1], 2), sep = ""), col = "Red", cex = 3)
+  text(ci[2], 0, paste(round(ci[2], 2), ")", sep = ""), col = "Red", cex = 3)
+  
+  text(theoretical_ci[1], 0.2, paste("(", round(theoretical_ci[1], 2), sep = ""), col = "Blue", cex = 3)
+  text(theoretical_ci[2], 0.2, paste(round(theoretical_ci[2], 2), ")", sep = ""), col = "Blue", cex = 3)
+  
+  text(pte, max(para$density) / 2, round(pte, 2), cex = 3)
+  
+
+  return(list(ci = ci, theoretical_ci = theoretical_ci, fun = fun, x = x))
+}
+
+set.seed(35)
+sam <- round(rnorm(30, mean = 20, sd = 3), 3)
+
+output <- myboot(iter = 10000, x = sam, fun = "mean", alpha = 0.05)
+output
+
+
+```
+
+

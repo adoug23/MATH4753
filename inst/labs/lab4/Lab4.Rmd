@@ -1,0 +1,211 @@
+---
+title: "Lab 4"
+author: "Andrew Douglass"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Tasks
+
+##Task 1
+
+```{r}
+getwd()
+```
+
+##Task 2
+
+```{r}
+spruceFile <- read.csv("SPRUCE.csv")
+tail(file)
+```
+
+##Task 3
+
+```{r}
+print("Trendscatter")
+library(s20x)
+trendscatter(Height ~ BHDiameter, data = spruceFile, f = 0.5)
+
+print("Linear Model Object")
+spruce.lm = with(spruceFile, lm(Height ~ BHDiameter))
+
+print("Residuals")
+height.res = residuals(spruce.lm)
+
+print("Fitted Values")
+height.fit = fitted(spruce.lm)
+
+print("Plot of Residuals vs Fitted Values")
+plot(y = height.res, x = height.fit)
+
+print("Plot of Residuals vs Fitted Values with trendscatter")
+trendscatter(y = height.res, x = height.fit)
+
+print("The shape seen in the plot has similar slopes on either side of the peak with the left being positive and right, negative. The other plot is only increasing then levels off near the top. The residuals and fitted plot show that a straight line won't be a good choice in this scenario.")
+
+print("Residual Plot")
+plot(spruce.lm, which = 1)
+
+print("Normality")
+normcheck(spruce.lm, shapiro.wilk = TRUE)
+
+print("Since the P value is .29 then the null hypothesis is not rejected and means there is more evidence for the null hypothesis.")
+
+print("Conclusion: Since the shape of the residual plot is similar to a mountain with symetric pattern, then it indicates that a straight line model wouldn't be a good choice for the data set as it is non linear.")
+
+```
+
+##Task 4
+
+```{r}
+print("Quadratic Model")
+quad.lm = lm(Height ~ BHDiameter + I(BHDiameter^2), data = spruceFile)
+summary(quad.lm)
+
+print("Fresh Scatter Plot of Height vs BHDiameter with Quadratic Curve")
+plot(spruceFile)
+myplot = function(x) {
+  quad.lm$coefficients[1] + quad.lm$coefficients[2] * x + quad.lm$coefficients[3] * x^2
+}
+curve(myplot, lwd = 2, col = "red", add = TRUE)
+
+print("Make quad.fit")
+quad.fit = fitted(quad.lm)
+
+print("Plot of Residuals vs Fitted Values using plot() and quad.lm")
+plot(quad.lm, which = 1)
+
+print("QQ Plot")
+normcheck(quad.lm, shapiro.wilk = TRUE)
+
+print("The P value is .684 which is much bigger than the .05 requirement so the null hypothesis is not rejected. The plot does fit the data better than the linear model.")
+```
+
+##Task 5
+
+```{r}
+print("Quad.lm Summary")
+summary(quad.lm)
+
+print("B0, B1, B2 hat values: B0 = 0.860896, B1 = 1.469592, B2 = -0.027457")
+
+print("Interval estimates")
+ciReg(quad.lm)
+
+print("Fitted Line Equation")
+print("Height = 0.860896 + 1.469592 * BHDiameter - 0.027457 * BHDiameter^2")
+
+print("Height Predictions for BHDiameter = 15, 18, 20cm")
+predict(quad.lm, data.frame(BHDiameter = c(15, 18, 20)))
+predict(spruce.lm, data.frame(BHDiameter = c(15, 18, 20)))
+
+print("Compare previous predictions: The values using quad.lm are greater than those from spruce.lm, which indicates a quadratic model object would be better.")
+
+print("Value of multiple R^2")
+summary(quad.lm)$r.squared
+summary(spruce.lm)$r.squared
+print("Spruce.lm is also lower than quad.lm in this case.")
+summary(quad.lm)$adj.r.squared
+summary(spruce.lm)$adj.r.squared
+
+print("The R^2 value is the proportion of variance in the dependent variable that is predictable from the independent variable. The value of 0.77 is pretty close to 1 which means the model is a decent fit for the data.")
+
+print("Since the R^2 value is higher for quad.lm then the quadratic model has the most variability in height as 77% of its variability is explained by the model for height.")
+
+print("Anova")
+anova(quad.lm)
+anova(spruce.lm)
+
+print("The residual sum squared values is lower with quad.lm which means there are basically less errors with using the quadratic model.")
+
+print("TSS, MSS, RSS, MSS/TSS values")
+height.qfit = fitted(quad.lm)
+TSS = with(spruceFile, sum((Height - mean(Height))^2))
+MSS = with(spruceFile, sum((height.qfit - mean(Height))^2))
+RSS = with(spruceFile, sum((Height - height.qfit)^2))
+MSS/TSS
+print(cat("TSS = ", TSS, "\nMSS = ", MSS, "\nRSS = ", RSS, "\nMSS/TSS = ", MSS/TSS))
+
+```
+
+##Task 6
+
+```{r}
+cooks20x(quad.lm, plot = TRUE)
+
+print("Cooks Distance and meaning in model: The Cook's distance means the bigger the bar from the graph, the more influence the point has on the model. The points with the biggest bars are the most influential. It is used in regression analysis to identify influential data points. 24 is the largest value in the graph so it is the most influential.")
+
+quad2.lm = lm(Height ~ BHDiameter + I(BHDiameter ^ 2), data = spruceFile[-24,])
+summary(quad2.lm)
+summary(quad.lm)
+
+print("After removing the datapoint, the intercept greatly changes the most out of other variables which indicates how influential it was.")
+
+```
+
+##Task 7
+
+\[ y = \beta_0 + \beta_1 x + \beta_2 (x - x_k) I(x > x_k) \]
+
+\[ y = \beta_0 + \beta_1 x + \beta_2 (x - x_k) \cdot 1 \]
+\[ y = \beta_0 + \beta_1 x + \beta_2 (x - x_k) \]
+\[ y = \beta_0 + \beta_1 x + \beta_2 x - \beta_2 x_k \]
+\[ y = (\beta_0 - \beta_2 x_k) + (\beta_1 + \beta_2) x \]
+
+When the I side is 0, then the right side of the equation clears and is left with: \[y = \beta_0 + \beta_1 x \] When the I side is 1, then the equation is: \[y = (\beta_0 - \beta_2 x_k) + (\beta_1 + \beta_2) x \]
+
+```{r}
+#Create plot using R script (xk = 18)
+sp2.df = within(spruceFile, x <- (BHDiameter - 18) * (BHDiameter > 18))
+sp2.df
+
+lmp = lm(Height ~ BHDiameter + x, data = sp2.df)
+
+tmp = summary(lmp)
+names(tmp)
+
+myf = function(x, coef) { 
+  coef[1] + coef[2] * x + coef[3] * (x - 18) * (x - 18 > 0)
+}
+
+plot(spruceFile, main = "Piecewise regression")
+myf(0, coef = tmp$coefficients[,"Estimate"])
+
+curve(myf(x, coef = tmp$coefficients[,"Estimate"]), 
+      add = TRUE, 
+      lwd = 2, col = "blue")
+      
+
+abline(v = 18)
+
+text(18, max(spruceFile$Height) * 0.9, 
+     paste("R sq.= ", round(tmp$r.squared, 4)), pos = 2)
+
+```
+
+##Task 8
+
+```{r}
+#Call my main package
+#MainPackage::calculatemean(18, 20, spruceFile)
+calculatemean <- function(xk1, xk2, data) {
+  df = within(data, {
+    X1 = (BHDiameter - xk1) * (BHDiameter > xk1)
+    X2 = (BHDiameter - xk2) * (BHDiameter > xk2)
+  })
+  lmp = lm(Height ~ BHDiameter + X1 + X2, data = df)
+  coef(lmp)
+}
+calculatemean
+
+```
+
+
